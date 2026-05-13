@@ -1,255 +1,214 @@
-<!DOCTYPE html>
-<html class="no-js" lang="en">
-<head>
+@extends('layouts.main')
+@section('content')
 
-    <!--- basic page needs
-    ================================================== -->
-    <meta charset="utf-8">
-    <title>Typerite</title>
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <!-- mobile specific metas
-    ================================================== -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- CSS
-    ================================================== -->
-    <link rel="stylesheet" href="/css/base.css">
-    <link rel="stylesheet" href="/css/vendor.css">
-    <link rel="stylesheet" href="/css/main.css">
-
-    <!-- script
-    ================================================== -->
-    <script src="/js/modernizr.js"></script>
-
-    <!-- favicons
-    ================================================== -->
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="manifest" href="site.webmanifest">
-
-</head>
-
-<body>
-
-    <!-- preloader
-    ================================================== -->
-    <div id="preloader">
-        <div id="loader" class="dots-fade">
-            <div></div>
-            <div></div>
-            <div></div>
+    <!-- Left Sidebar: Navigation & Tags -->
+    <aside class="hidden md:block md:col-span-2 space-y-8">
+        <div class="space-y-4">
+            <h3 class="font-ui-label text-ui-label uppercase tracking-widest text-secondary font-bold">Discover</h3>
+            <ul class="space-y-2">
+                <li><a class="flex items-center gap-3 text-primary font-bold font-ui-label text-ui-label py-1"
+                        href="#"><span class="material-symbols-outlined" data-weight="fill"
+                            style="font-variation-settings: 'FILL' 1;">explore</span>Explore</a></li>
+                <li><a class="flex items-center gap-3 text-on-surface-variant hover:text-primary transition-colors font-ui-label text-ui-label py-1"
+                        href="#"><span class="material-symbols-outlined">trending_up</span>Popular</a></li>
+                <li><a class="flex items-center gap-3 text-on-surface-variant hover:text-primary transition-colors font-ui-label text-ui-label py-1"
+                        href="#"><span class="material-symbols-outlined">history</span>Recent</a></li>
+            </ul>
         </div>
-    </div>
-
-    <div id="top" class="s-wrap site-wrapper">
-
-        <!-- site header
-        ================================================== -->
-        <header class="s-header">
-
-            <div class="header__top">
-                <div class="header__logo">
-                    <a class="site-logo" href="index.html">
-                        <img src="/images/logo.svg" alt="Homepage">
-                    </a>
+        <div class="space-y-4">
+            <h3 class="font-ui-label text-ui-label uppercase tracking-widest text-secondary font-bold">Your Tags
+            </h3>
+            <div class="flex flex-wrap gap-2">
+                <a class="px-3 py-1 bg-surface-container border border-outline-variant rounded-full font-metadata text-metadata hover:bg-outline-variant transition-colors"
+                    href="#">#Development</a>
+                <a class="px-3 py-1 bg-surface-container border border-outline-variant rounded-full font-metadata text-metadata hover:bg-outline-variant transition-colors"
+                    href="#">#DesignSystems</a>
+                <a class="px-3 py-1 bg-surface-container border border-outline-variant rounded-full font-metadata text-metadata hover:bg-outline-variant transition-colors"
+                    href="#">#Minimalism</a>
+                <a class="px-3 py-1 bg-surface-container border border-outline-variant rounded-full font-metadata text-metadata hover:bg-outline-variant transition-colors"
+                    href="#">#Typography</a>
+                <a class="px-3 py-1 bg-surface-container border border-outline-variant rounded-full font-metadata text-metadata hover:bg-outline-variant transition-colors"
+                    href="#">#Future</a>
+            </div>
+        </div>
+    </aside>
+    <!-- Center Feed -->
+    <section class="col-span-1 md:col-span-7 space-y-12">
+        <!-- Featured Article (Bento Style) -->
+        <article
+            class="group border border-outline-variant rounded-xl overflow-hidden bg-white hover:border-primary transition-colors duration-300">
+            <div class="aspect-[16/9] overflow-hidden">
+                <img alt=""
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    data-alt="A macro photograph of high-quality cream-colored paper with deep black ink strokes, showcasing fine texture and professional calligraphy. The lighting is soft and cinematic, casting gentle shadows that emphasize the physical depth of the ink on the page. The overall aesthetic is minimalist and sophisticated, representing a premium editorial experience with high contrast and clarity."
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBFBSyj6CkyvBOD_SRQ5A-cSY1Cdw5WCfpcpMbK6wt1gNKpKVEBIHZC_rRMCEvC8iTE1zTEYRtsP81jrHP0bo9ffojhdYOzgAhgs1Cz0q8QFqa0nSD_IfSMhW9ztTCe15twvtGHZkIn0PtjzGAqIbQpqDXsAI-wV5oooi_CA4cwuHj96Y1K7UbHK1q_5sWUMDjows8tWRxj4iMYvIBUd-ops3T519EOJ6RlLxzk1jn0Wtk_8HWTjpj__S_xDppqNI1tnhqIX3QSUad" />
+            </div>
+            <div class="p-8 space-y-4">
+                <div class="flex items-center gap-3 font-metadata text-metadata text-secondary">
+                    <span
+                        class="bg-primary-container text-on-primary px-2 py-0.5 rounded font-bold uppercase tracking-wider">Featured</span>
+                    <span>•</span>
+                    <span>May 12, 2024</span>
+                    <span>•</span>
+                    <span>8 min read</span>
                 </div>
-            </div> <!-- end header__top -->
-
-            <nav class="header__nav-wrap">
-
-                <ul class="header__nav">
-                    <li class="current"><a href="index.html" title="">Home</a></li>
-                    <li class="has-children">
-                        <a href="#0" title="">Categories</a>
-                        <ul class="sub-menu">
-                        <li><a href="category.html">Lifestyle</a></li>
-                        <li><a href="category.html">Health</a></li>
-                        <li><a href="category.html">Family</a></li>
-                        <li><a href="category.html">Management</a></li>
-                        <li><a href="category.html">Travel</a></li>
-                        <li><a href="category.html">Work</a></li>
-                        </ul>
-                    </li>
-                    <li class="has-children">
-                        <a href="#0" title="">Blog Posts</a>
-                        <ul class="sub-menu">
-                        <li><a href="single-video.html">Video Post</a></li>
-                        <li><a href="single-audio.html">Audio Post</a></li>
-                        <li><a href="single-gallery.html">Gallery Post</a></li>
-                        <li><a href="single-standard.html">Standard Post</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="styles.html" title="">Styles</a></li>
-                    <li><a href="page-about.html" title="">About</a></li>
-                    <li><a href="page-contact.html" title="">Contact</a></li>
-                </ul> <!-- end header__nav -->
-
-                <ul class="header__social">
-                    <li class="ss-facebook">
-                        <a href="https://facebook.com/">
-                            <span class="screen-reader-text">Facebook</span>
-                        </a>
-                    </li>
-                    <li class="ss-twitter">
-                        <a href="#0">
-                            <span class="screen-reader-text">Twitter</span>
-                        </a>
-                    </li>
-                    <li class="ss-dribbble">
-                        <a href="#0">
-                            <span class="screen-reader-text">Dribbble</span>
-                        </a>
-                    </li>
-                    <li class="ss-pinterest">
-                        <a href="#0">
-                            <span class="screen-reader-text">Behance</span>
-                        </a>
-                    </li>
-                </ul>
-
-            </nav> <!-- end header__nav-wrap -->
-
-            <!-- menu toggle -->
-            <a href="#0" class="header__menu-toggle">
-                <span>Menu</span>
-            </a>
-
-        </header> <!-- end s-header -->
-
-
-        <!-- search
-        ================================================== -->
-        <div class="s-search">
-
-            <div class="search-block">
-
-                <form role="search" method="get" class="search-form" action="#">
-                    <label>
-                        <span class="hide-content">Search for:</span>
-                        <input type="search" class="search-field" placeholder="Type Keywords" value="" name="s" title="Search for:" autocomplete="off">
-                    </label>
-                    <input type="submit" class="search-submit" value="Search">
-                </form>
-
-                <a href="#0" title="Close Search" class="search-close">Close</a>
-
-            </div>  <!-- end search-block -->
-
-            <!-- search modal trigger -->
-            <a href="#0" class="search-trigger">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill:rgba(0, 0, 0, 1);transform:;-ms-filter:"><path d="M10,18c1.846,0,3.543-0.635,4.897-1.688l4.396,4.396l1.414-1.414l-4.396-4.396C17.365,13.543,18,11.846,18,10 c0-4.411-3.589-8-8-8s-8,3.589-8,8S5.589,18,10,18z M10,4c3.309,0,6,2.691,6,6s-2.691,6-6,6s-6-2.691-6-6S6.691,4,10,4z"></path></svg>
-                <span>Search</span>
-            </a>
-            <span class="search-line"></span>
-
-        </div> <!-- end s-search -->
-
-
-        <!-- site content
-        ================================================== -->
-        <div class="s-content">
-
-            <div class="masonry-wrap">
-
-                <div class="masonry">
-
-                    <div class="grid-sizer"></div>
-
-                   @foreach ($posts as $post )
-                        <article class="masonry__brick entry format-standard animate-this">
-
-                        <div class="entry__thumb">
-                            <a href="{{ route('posts.show', $post['slug']) }}" class="entry__thumb-link">
-                                <img src="/images/thumbs/masonry/woodcraft-600.jpg"
-                                        srcset="/images/thumbs/masonry/woodcraft-600.jpg 1x, /images/thumbs/masonry/woodcraft-1200.jpg 2x" alt="">
-                            </a>
+                <h2
+                    class="font-headline-md text-headline-md text-on-surface leading-tight group-hover:text-primary transition-colors">
+                    The Architecture of Quiet: Why Minimalist Design Wins the Long Game</h2>
+                <p class="text-on-surface-variant font-body-md text-body-md line-clamp-3">In an era of digital
+                    noise, the most powerful statement a brand can make is silence. We explore the structural
+                    psychology behind 'Paper &amp; Ink' aesthetics and how whitespace drives user focus in SaaS
+                    environments.</p>
+                <div class="flex items-center justify-between pt-4 border-t border-outline-variant">
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-10 h-10 rounded-full bg-surface-container border border-outline-variant overflow-hidden">
+                            <img alt="Author" class="w-full h-full object-cover"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlYHQ2yPKl-Weyq3JRVjhy936Wd9AaAVvFRAHsIQrKrnCv4i5A-cQ6YF0zqrKz1Ma7N9cW9R6NimpSIUyDmkSyzdN0Sf4wwyS7Jf5Iq_UrWBpwB9MPN5QGbUNdxa82Mz2YU2I0GnXGjM6DDPi-mIODcm-LUOTsZb-C7V1GgUyP3AvuztsY0A5OKbR2TsqCVVxpF70-TiHMB2Jsyd2ojVnbA0gj9jJ03QY9BqD7puDZnBBYI5PyKBtwtQiGWMcknmNIjCWUWokSAMSR" />
                         </div>
-
-                        <div class="entry__text">
-                            <div class="entry__header">
-
-                                <h2 class="entry__title"><a href="{{ route('posts.show', $post['slug']) }}">{{ $post['title'] }}</a></h2>
-                                <div class="entry__meta">
-                                    <span class="entry__meta-cat">
-                                        @foreach ($post['categories'] as $category)
-                                            <a href="#">{{ $category }}</a>
-                                        @endforeach
-                                    </span>
-                                    <span class="entry__meta-date">
-                                        <a href="single-standard.html">{{ $post['published_at'] }}</a>
-                                    </span>
-                                </div>
-
-                            </div>
-                            <div class="entry__excerpt">
-                                <p>
-                                    {{ $post['content'] }}
-                                </p>
-                            </div>
+                        <div>
+                            <p class="font-ui-label text-ui-label font-bold text-on-surface">Julian Thorne</p>
+                            <p class="font-metadata text-metadata text-secondary">Design Principal</p>
                         </div>
-
-                    </article> <!-- end article -->
-                   @endforeach
-
-
-
-
-
-
-
-
-                </div> <!-- end masonry -->
-
-            </div> <!-- end masonry-wrap -->
-
-            <div class="row">
-                <div class="column large-full">
-                    <nav class="pgn">
-                        <ul>
-                            <li><a class="pgn__prev" href="#0">Prev</a></li>
-                            <li><a class="pgn__num" href="#0">1</a></li>
-                            <li><span class="pgn__num current">2</span></li>
-                            <li><a class="pgn__num" href="#0">3</a></li>
-                            <li><a class="pgn__num" href="#0">4</a></li>
-                            <li><a class="pgn__num" href="#0">5</a></li>
-                            <li><span class="pgn__num dots">…</span></li>
-                            <li><a class="pgn__num" href="#0">8</a></li>
-                            <li><a class="pgn__next" href="#0">Next</a></li>
-                        </ul>
-                    </nav>
+                    </div>
+                    <button class="text-primary p-2 rounded-full hover:bg-primary-container/10 transition-colors">
+                        <span class="material-symbols-outlined" data-icon="bookmark_add">bookmark_add</span>
+                    </button>
                 </div>
             </div>
-
-        </div> <!-- end s-content -->
-
-
-        <!-- footer
-        ================================================== -->
-        <footer class="s-footer">
-            <div class="row">
-                <div class="column large-full footer__content">
-                    <div class="footer__copyright">
-                        <span>© Copyright Typerite 2021</span>
-                        <span>Design by <a href="https://www.styleshout.com/">StyleShout</a></span>
+        </article>
+        <!-- Grid of Regular Articles -->
+        <div class="grid grid-cols-1 gap-12">
+            <!-- Article 2 -->
+            <article class="flex flex-col md:flex-row gap-8 group">
+                <div
+                    class="w-full md:w-1/3 aspect-video md:aspect-square overflow-hidden rounded-lg border border-outline-variant">
+                    <img alt=""
+                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        data-alt="A close-up shot of a classic fountain pen resting on an open notebook filled with elegant handwriting. The scene is lit by warm, natural afternoon sunlight coming through a nearby window, creating long, soft shadows. The paper has a subtle grain, and the ink appears rich and saturated, embodying an atmosphere of intellectual focus and traditional craftsmanship."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtSx0MXlyyHL9GDHEXpmVuFjybH99-q36c7QJTv0fLQwy0bb3eBj178Az7BSSJoknhXuC_7o1TO5kPZgkPkWw6yJq4AsDaf1guCajS-XLG4CGZQdWf_DqrRyYz2887catDIoVg0ESyyurHoHI12XjIlwQkmpdearKFbgD7sR0iEuiBjHsf9_eLT9hloE9e0ZMvny6jI2TH7fAujx5JzCyOoevEgM56_cZpD7VBzsm-j99FpzfXdYfrGKV6LuXD0wvmX0mRJnCkKLyF" />
+                </div>
+                <div class="w-full md:w-2/3 space-y-3">
+                    <div class="flex items-center gap-2 font-metadata text-metadata text-secondary">
+                        <span class="text-primary font-bold">Typography</span>
+                        <span>•</span>
+                        <span>May 10, 2024</span>
+                    </div>
+                    <h3
+                        class="font-headline-md text-[24px] leading-snug text-on-surface group-hover:text-primary transition-colors">
+                        The Resurgence of Serif Fonts in High-Contrast Digital Interfaces</h3>
+                    <p class="text-on-surface-variant font-body-md text-body-md line-clamp-2">How modern
+                        high-resolution displays are bringing back the elegance of the serif, and why readability is
+                        the new luxury.</p>
+                    <div class="flex items-center gap-3 pt-2">
+                        <p class="font-ui-label text-ui-label text-on-surface font-medium">Elena Vance</p>
+                        <span class="text-secondary text-metadata">•</span>
+                        <span class="text-secondary font-metadata text-metadata">5 min read</span>
+                    </div>
+                </div>
+            </article>
+            <!-- Article 3 -->
+            <article class="flex flex-col md:flex-row gap-8 group">
+                <div
+                    class="w-full md:w-1/3 aspect-video md:aspect-square overflow-hidden rounded-lg border border-outline-variant">
+                    <img alt=""
+                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        data-alt="A modern office workspace with a clean, white desk featuring a sleek laptop and a single architectural plant. The wall behind is a neutral grey with a single minimalist poster framed in black. The lighting is bright and even, creating a crisp and professional environment that feels organized and serene. The overall style is modern minimalist with a focus on functional clarity."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYOfwZva0F3aWqjVIFQtGgNkCRYq1JRNEMXBD0AkUlEEjMZc6s0G8_FIOJqlR7yUPsMAgaN5Mdk12msCp-vZTcDx14FpUnXYFZzVv1Fq6wMmIlqAAKNp2s-nOvKHpc67EHg38exnymuQfAi1za4cPulsSu4YQPqnlXKqR-6_4BuLfVgV-Z0U_Bn-6UOhyvzHxMcXiLf5MAHC1XglUgOp2FIPbALir4i9sBSPPX2gTLdVe1K42tVpGIA3mG6VHeWCvjOQoBYKgFVIAu" />
+                </div>
+                <div class="w-full md:w-2/3 space-y-3">
+                    <div class="flex items-center gap-2 font-metadata text-metadata text-secondary">
+                        <span class="text-primary font-bold">Productivity</span>
+                        <span>•</span>
+                        <span>May 08, 2024</span>
+                    </div>
+                    <h3
+                        class="font-headline-md text-[24px] leading-snug text-on-surface group-hover:text-primary transition-colors">
+                        Curating Your Digital Canvas: A Guide to Focused Workspaces</h3>
+                    <p class="text-on-surface-variant font-body-md text-body-md line-clamp-2">Reducing cognitive
+                        load through environmental design. Learn how to strip away the non-essential from your
+                        workflow.</p>
+                    <div class="flex items-center gap-3 pt-2">
+                        <p class="font-ui-label text-ui-label text-on-surface font-medium">Marcus Chen</p>
+                        <span class="text-secondary text-metadata">•</span>
+                        <span class="text-secondary font-metadata text-metadata">12 min read</span>
+                    </div>
+                </div>
+            </article>
+        </div>
+        <div class="pt-8 flex justify-center">
+            <button
+                class="px-8 py-3 border border-primary text-primary font-ui-button text-ui-button rounded-lg hover:bg-primary-container/5 transition-all">
+                Load More Stories
+            </button>
+        </div>
+    </section>
+    <!-- Right Sidebar: Trending & Who to Follow -->
+    <aside class="hidden lg:block lg:col-span-3 space-y-12">
+        <!-- Trending Section -->
+        <div class="bg-white border border-outline-variant rounded-xl p-6 space-y-6">
+            <h3 class="font-headline-md text-[20px] text-on-surface">Trending on Ink</h3>
+            <div class="space-y-6">
+                <div class="flex gap-4">
+                    <span class="font-display-lg text-secondary opacity-30 leading-none">01</span>
+                    <div class="space-y-1">
+                        <h4
+                            class="font-ui-label text-ui-label font-bold text-on-surface leading-tight hover:text-primary cursor-pointer">
+                            The Carbon Cost of AI Writing</h4>
+                        <p class="font-metadata text-metadata text-secondary">Tech • 4 min read</p>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <span class="font-display-lg text-secondary opacity-30 leading-none">02</span>
+                    <div class="space-y-1">
+                        <h4
+                            class="font-ui-label text-ui-label font-bold text-on-surface leading-tight hover:text-primary cursor-pointer">
+                            Interview: The Poet in the Machine</h4>
+                        <p class="font-metadata text-metadata text-secondary">Culture • 15 min read</p>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <span class="font-display-lg text-secondary opacity-30 leading-none">03</span>
+                    <div class="space-y-1">
+                        <h4
+                            class="font-ui-label text-ui-label font-bold text-on-surface leading-tight hover:text-primary cursor-pointer">
+                            Reclaiming Your Time from Algorithms</h4>
+                        <p class="font-metadata text-metadata text-secondary">Life • 6 min read</p>
                     </div>
                 </div>
             </div>
-
-            <div class="go-top">
-                <a class="smoothscroll" title="Back to Top" href="#top"></a>
+        </div>
+        <!-- Who to Follow -->
+        <x-recommended-authors />
+        <!-- Newsletter Sign Up -->
+        <div class="p-6 bg-primary-container rounded-xl text-on-primary space-y-4">
+            <h3 class="font-headline-md text-[20px]">The Sunday Edition</h3>
+            <p class="font-metadata text-metadata text-on-primary-container">Join 40,000+ creators receiving our
+                weekly digest on design, code, and intentional living.</p>
+            <div class="space-y-2">
+                <input
+                    class="w-full px-4 py-2 rounded bg-white/10 border border-white/20 text-white placeholder:text-white/60 focus:ring-1 focus:ring-white focus:outline-none"
+                    placeholder="email@example.com" type="email" />
+                <button
+                    class="w-full py-2 bg-white text-primary font-ui-button text-ui-button rounded hover:bg-opacity-90 transition-all">Subscribe</button>
             </div>
-        </footer>
+        </div>
+    </aside>
+@endsection
+@push('style')
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
 
-    </div> <!-- end s-wrap -->
-
-
-    <!-- Java Script
-    ================================================== -->
-    <script src="/js/jquery-3.2.1.min.js"></script>
-    <script src="/js/plugins.js"></script>
-    <script src="/js/main.js"></script>
-
-</body>
+        body {
+            background-color: #f9f9f9;
+            color: #1a1c1c;
+        }
+    </style>
+@endpush
+@section('mainClass',
+    'pt-24 pb-section-gap max-w-container-max mx-auto px-gutter grid grid-cols-1 md:grid-cols-12
+    gap-8')
+@section('bodyClass', 'font-body-md text-body-md selection:bg-primary-fixed selection:text-on-primary-fixed')
