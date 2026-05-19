@@ -5,12 +5,12 @@
              <a class="font-display-lg-mobile text-display-lg-mobile font-bold text-on-surface" href="#">Ink
                  &amp; Write AI</a>
              <nav class="hidden md:flex items-center gap-6">
-                 <a class="text-primary font-bold border-b-2 border-primary pb-1 font-ui-label text-ui-label hover:text-primary transition-colors duration-200"
+                 <a class="{{ request()->routeIs('posts.index') ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant font-medium hover:text-primary' }} font-ui-label text-ui-label transition-colors duration-200"
                      href="{{ route('posts.index') }}">Feed</a>
-                 <a class="text-on-surface-variant font-medium font-ui-label text-ui-label hover:text-primary transition-colors duration-200"
-                     href="#">Authors</a>
-                 <a class="text-on-surface-variant font-medium font-ui-label text-ui-label hover:text-primary transition-colors duration-200"
-                     href="#">Dashboard</a>
+                 <a class="{{ request()->routeIs('dashboard.posts.*') ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant font-medium hover:text-primary' }} font-ui-label text-ui-label transition-colors duration-200"
+                     href="{{ route('dashboard.posts.index') }}">Manage Posts</a>
+                 <a class="{{ request()->routeIs('dashboard.categories.*') ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant font-medium hover:text-primary' }} font-ui-label text-ui-label transition-colors duration-200"
+                     href="{{ route('dashboard.categories.index') }}">Manage Categories</a>
              </nav>
          </div>
          <div class="flex items-center gap-4">
