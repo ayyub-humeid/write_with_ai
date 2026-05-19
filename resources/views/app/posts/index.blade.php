@@ -2,44 +2,14 @@
 @section('content')
 
     <!-- Left Sidebar: Navigation & Tags -->
-    <aside class="hidden md:block md:col-span-2 space-y-8">
-        <div class="space-y-4">
-            <h3 class="font-ui-label text-ui-label uppercase tracking-widest text-secondary font-bold">Discover</h3>
-            <ul class="space-y-2">
-                <li><a class="flex items-center gap-3 text-primary font-bold font-ui-label text-ui-label py-1"
-                        href="#"><span class="material-symbols-outlined" data-weight="fill"
-                            style="font-variation-settings: 'FILL' 1;">explore</span>Explore</a></li>
-                <li><a class="flex items-center gap-3 text-on-surface-variant hover:text-primary transition-colors font-ui-label text-ui-label py-1"
-                        href="#"><span class="material-symbols-outlined">trending_up</span>Popular</a></li>
-                <li><a class="flex items-center gap-3 text-on-surface-variant hover:text-primary transition-colors font-ui-label text-ui-label py-1"
-                        href="#"><span class="material-symbols-outlined">history</span>Recent</a></li>
-            </ul>
-        </div>
-        <div class="space-y-4">
-            <h3 class="font-ui-label text-ui-label uppercase tracking-widest text-secondary font-bold">Your Tags
-            </h3>
-            <div class="flex flex-wrap gap-2">
-                <a class="px-3 py-1 bg-surface-container border border-outline-variant rounded-full font-metadata text-metadata hover:bg-outline-variant transition-colors"
-                    href="#">#Development</a>
-                <a class="px-3 py-1 bg-surface-container border border-outline-variant rounded-full font-metadata text-metadata hover:bg-outline-variant transition-colors"
-                    href="#">#DesignSystems</a>
-                <a class="px-3 py-1 bg-surface-container border border-outline-variant rounded-full font-metadata text-metadata hover:bg-outline-variant transition-colors"
-                    href="#">#Minimalism</a>
-                <a class="px-3 py-1 bg-surface-container border border-outline-variant rounded-full font-metadata text-metadata hover:bg-outline-variant transition-colors"
-                    href="#">#Typography</a>
-                <a class="px-3 py-1 bg-surface-container border border-outline-variant rounded-full font-metadata text-metadata hover:bg-outline-variant transition-colors"
-                    href="#">#Future</a>
-            </div>
-        </div>
-    </aside>
+    @include('layouts.includes.left-aside')
     <!-- Center Feed -->
     <section class="col-span-1 md:col-span-7 space-y-12">
         <!-- Featured Article (Bento Style) -->
         <article
             class="group border border-outline-variant rounded-xl overflow-hidden bg-white hover:border-primary transition-colors duration-300">
             <div class="aspect-[16/9] overflow-hidden">
-                <img alt=""
-                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                <img alt="" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     data-alt="A macro photograph of high-quality cream-colored paper with deep black ink strokes, showcasing fine texture and professional calligraphy. The lighting is soft and cinematic, casting gentle shadows that emphasize the physical depth of the ink on the page. The overall aesthetic is minimalist and sophisticated, representing a premium editorial experience with high contrast and clarity."
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBFBSyj6CkyvBOD_SRQ5A-cSY1Cdw5WCfpcpMbK6wt1gNKpKVEBIHZC_rRMCEvC8iTE1zTEYRtsP81jrHP0bo9ffojhdYOzgAhgs1Cz0q8QFqa0nSD_IfSMhW9ztTCe15twvtGHZkIn0PtjzGAqIbQpqDXsAI-wV5oooi_CA4cwuHj96Y1K7UbHK1q_5sWUMDjows8tWRxj4iMYvIBUd-ops3T519EOJ6RlLxzk1jn0Wtk_8HWTjpj__S_xDppqNI1tnhqIX3QSUad" />
             </div>
@@ -144,56 +114,7 @@
         </div>
     </section>
     <!-- Right Sidebar: Trending & Who to Follow -->
-    <aside class="hidden lg:block lg:col-span-3 space-y-12">
-        <!-- Trending Section -->
-        <div class="bg-white border border-outline-variant rounded-xl p-6 space-y-6">
-            <h3 class="font-headline-md text-[20px] text-on-surface">Trending on Ink</h3>
-            <div class="space-y-6">
-                <div class="flex gap-4">
-                    <span class="font-display-lg text-secondary opacity-30 leading-none">01</span>
-                    <div class="space-y-1">
-                        <h4
-                            class="font-ui-label text-ui-label font-bold text-on-surface leading-tight hover:text-primary cursor-pointer">
-                            The Carbon Cost of AI Writing</h4>
-                        <p class="font-metadata text-metadata text-secondary">Tech • 4 min read</p>
-                    </div>
-                </div>
-                <div class="flex gap-4">
-                    <span class="font-display-lg text-secondary opacity-30 leading-none">02</span>
-                    <div class="space-y-1">
-                        <h4
-                            class="font-ui-label text-ui-label font-bold text-on-surface leading-tight hover:text-primary cursor-pointer">
-                            Interview: The Poet in the Machine</h4>
-                        <p class="font-metadata text-metadata text-secondary">Culture • 15 min read</p>
-                    </div>
-                </div>
-                <div class="flex gap-4">
-                    <span class="font-display-lg text-secondary opacity-30 leading-none">03</span>
-                    <div class="space-y-1">
-                        <h4
-                            class="font-ui-label text-ui-label font-bold text-on-surface leading-tight hover:text-primary cursor-pointer">
-                            Reclaiming Your Time from Algorithms</h4>
-                        <p class="font-metadata text-metadata text-secondary">Life • 6 min read</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Who to Follow -->
-        <x-recommended-authors />
-        <!-- Newsletter Sign Up -->
-        <div class="p-6 bg-primary-container rounded-xl text-on-primary space-y-4">
-            <h3 class="font-headline-md text-[20px]">The Sunday Edition</h3>
-            <p class="font-metadata text-metadata text-on-primary-container">Join 40,000+ creators receiving our
-                weekly digest on design, code, and intentional living.</p>
-            <div class="space-y-2">
-                <input
-                    class="w-full px-4 py-2 rounded bg-white/10 border border-white/20 text-white placeholder:text-white/60 focus:ring-1 focus:ring-white focus:outline-none"
-                    placeholder="email@example.com" type="email" />
-                <button
-                    class="w-full py-2 bg-white text-primary font-ui-button text-ui-button rounded hover:bg-opacity-90 transition-all">Subscribe</button>
-            </div>
-        </div>
-    </aside>
+    @include('layouts.includes.right-aside')
 @endsection
 @push('style')
     <style>
