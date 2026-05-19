@@ -83,7 +83,7 @@
                     <h3 class="font-ui-label text-ui-label text-on-surface mb-4 uppercase tracking-wider">Category</h3>
                     <div class="relative">
                         <select name="category_id" 
-                            class="w-full appearance-none bg-white border border-outline-variant rounded-xl px-4 py-3 font-metadata text-metadata text-on-surface focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all cursor-pointer shadow-sm pr-10">
+                            class="w-full appearance-none bg-none bg-white border border-outline-variant rounded-xl px-4 py-3 font-metadata text-metadata text-on-surface focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all cursor-pointer shadow-sm pr-10">
                             <option value="">Select category</option>
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}" @if ($post->category_id == $category->id) selected @endif>{{ $category->name }}</option>
