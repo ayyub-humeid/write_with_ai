@@ -48,26 +48,7 @@
             <!-- Pagination -->
             <!-- end  Tabs & Search Filter component -->
 
-            <div class="flex items-center justify-between pt-8">
-                <span class="text-metadata font-metadata text-on-surface-variant">Showing 1 to 10 of 42
-                    posts</span>
-                <div class="flex gap-2">
-                    <button
-                        class="p-2 border border-outline-variant rounded-lg hover:bg-surface-container-low disabled:opacity-30"
-                        disabled="">
-                        <span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
-                    </button>
-                    <button
-                        class="h-10 w-10 border border-primary bg-primary text-on-primary rounded-lg font-ui-label">1</button>
-                    <button
-                        class="h-10 w-10 border border-outline-variant hover:bg-surface-container-low rounded-lg font-ui-label">2</button>
-                    <button
-                        class="h-10 w-10 border border-outline-variant hover:bg-surface-container-low rounded-lg font-ui-label">3</button>
-                    <button class="p-2 border border-outline-variant rounded-lg hover:bg-surface-container-low">
-                        <span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
-                    </button>
-                </div>
-            </div>
+
         </div>
     </div>
 @endsection

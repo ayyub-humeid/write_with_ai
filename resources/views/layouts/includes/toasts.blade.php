@@ -1,5 +1,6 @@
 <!-- Toast Container -->
-<div id="toast-container" class="fixed bottom-5 right-5 z-[9999] flex flex-col gap-3 max-w-sm w-full px-4 sm:px-0 pointer-events-none">
+<div id="toast-container"
+    class="fixed bottom-5 right-5 z-[9999] flex flex-col gap-3 max-w-sm w-full px-4 sm:px-0 pointer-events-none">
     <!-- Dynamic toasts will render here -->
 </div>
 
@@ -15,8 +16,9 @@
 
         // Create the toast wrapper element
         const toast = document.createElement('div');
-        toast.className = `pointer-events-auto relative overflow-hidden flex items-start gap-3 p-4 rounded-xl shadow-xl border bg-white/95 backdrop-blur-md border-slate-100 transition-all duration-300 ease-out transform translate-x-full opacity-0 w-full`;
-        
+        toast.className =
+            `pointer-events-auto relative overflow-hidden flex items-start gap-3 p-4 rounded-xl shadow-xl border bg-white/95 backdrop-blur-md border-slate-100 transition-all duration-300 ease-out transform translate-x-full opacity-0 w-full`;
+
         let icon = 'check_circle';
         let iconColor = 'text-emerald-500 bg-emerald-50';
         let progressColor = 'bg-emerald-500';
@@ -74,18 +76,18 @@
 
     /**
      * Dismiss a specific toast notification with animation.
-     * @param {HTMLElement} toastElement 
+     * @param {HTMLElement} toastElement
      */
     function dismissToast(toastElement) {
         if (!toastElement) return;
-        
+
         // Clear active timer if dismissed early manually
         if (toastElement.dataset.timerId) {
             clearTimeout(parseInt(toastElement.dataset.timerId));
         }
 
         toastElement.classList.add('translate-x-full', 'opacity-0');
-        
+
         // Wait for animation, then remove
         setTimeout(() => {
             toastElement.remove();
@@ -125,3 +127,13 @@
         });
     </script>
 @endif
+
+<!-- @if (session('errors') && session('errors')->any())
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            @foreach (session('errors')->all() as $error)
+                showToast("{{ $error }}", 'error');
+            @endforeach
+        });
+    </script>
+@endif -->

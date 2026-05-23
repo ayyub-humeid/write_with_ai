@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
  
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryFormRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -43,19 +44,13 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CategoryFormRequest $request)
     {
-        // Auto-generate slug if not explicitly provided
-
-
-        $validated = $request->validate([
-            'name'        => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string', 'max:1000'],
-            'parent_id'   => ['nullable', 'exists:categories,id'],
-            
-        ]);
-        // Generate slug
-        $validated['slug'] = Str::slug($validated['name']);
+        $validated = $request->validated();
+        
+        if (empty($validated['slug'])) {
+            $validated['slug'] = Str::slug($validated['name']);
+        }
         
         Category::create($validated);
 
@@ -90,21 +85,14 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CategoryFormRequest $request, string $id)
     {
         $category = Category::findOrFail($id);
+        $validated = $request->validated();
 
-        // Auto-generate slug if not explicitly provided
-        if (!$request->filled('slug') && $request->filled('name')) {
-            $request->merge(['slug' => Str::slug($request->input('name'))]);
+        if (empty($validated['slug'])) {
+            $validated['slug'] = Str::slug($validated['name']);
         }
-
-        $validated = $request->validate([
-            'name'        => ['required', 'string', 'max:255'],
-            'slug'        => ['required', 'string', 'max:255', Rule::unique('categories', 'slug')->ignore($id)],
-            'description' => ['nullable', 'string', 'max:1000'],
-            'parent_id'   => ['nullable', 'exists:categories,id', 'different:id'],
-        ]);
 
         $category->update($validated);
 
