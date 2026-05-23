@@ -5,33 +5,27 @@
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 pt-16">
         <!-- Main Form Fields -->
         <div class="lg:col-span-8 bg-surface-container-lowest border border-outline-variant rounded-2xl p-8 shadow-sm space-y-6">
-            <!-- Validation Errors -->
-            @if ($errors->any())
-                <div class="p-4 bg-error-container text-on-error-container rounded-xl font-metadata text-metadata">
-                    <ul class="list-disc pl-5 space-y-1">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
+            
             <!-- Category Name -->
             <div>
                 <label for="name" class="block font-ui-label text-ui-label text-on-surface mb-2 font-semibold">Category Name</label>
                 <input type="text" name="name" id="name" value="{{ old('name', $category->name) }}"
-                    class="w-full bg-white border border-outline-variant rounded-xl px-4 py-3 font-metadata text-metadata text-on-surface focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm"
-                    placeholder="e.g. Technology, Design, Philosophy" required>
+                    class="w-full bg-white border {{ $errors->has('name') ? 'border-error' : 'border-outline-variant' }} rounded-xl px-4 py-3 font-metadata text-metadata text-on-surface focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm"
+                    placeholder="e.g. Technology, Design, Philosophy">
+                @error('name')
+                    <div class="text-error font-metadata text-metadata mt-1 flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[16px]">warning</span>
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
-
-          
 
             <!-- Parent Category selection -->
             <div>
                 <label for="parent_id" class="block font-ui-label text-ui-label text-on-surface mb-2 font-semibold">Parent Category</label>
                 <div class="relative">
                     <select name="parent_id" id="parent_id"
-                        class="w-full appearance-none bg-none bg-white border border-outline-variant rounded-xl px-4 py-3 font-metadata text-metadata text-on-surface focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all cursor-pointer shadow-sm pr-10">
+                        class="w-full appearance-none bg-none bg-white border {{ $errors->has('parent_id') ? 'border-error' : 'border-outline-variant' }} rounded-xl px-4 py-3 font-metadata text-metadata text-on-surface focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all cursor-pointer shadow-sm pr-10">
                         <option value="">None (Make it a root category)</option>
                         @foreach ($parent_categories as $parent)
                             <option value="{{ $parent->id }}" @if (old('parent_id', $category->parent_id) == $parent->id) selected @endif>
@@ -44,14 +38,26 @@
                         <span class="material-symbols-outlined text-[20px]">keyboard_arrow_down</span>
                     </div>
                 </div>
+                @error('parent_id')
+                    <div class="text-error font-metadata text-metadata mt-1 flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[16px]">warning</span>
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
 
             <!-- Description -->
             <div>
                 <label for="description" class="block font-ui-label text-ui-label text-on-surface mb-2 font-semibold">Description</label>
                 <textarea name="description" id="description" rows="5"
-                    class="w-full bg-white border border-outline-variant rounded-xl px-4 py-3 font-metadata text-metadata text-on-surface focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm"
+                    class="w-full bg-white border {{ $errors->has('description') ? 'border-error' : 'border-outline-variant' }} rounded-xl px-4 py-3 font-metadata text-metadata text-on-surface focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm"
                     placeholder="Briefly describe what this taxonomy node represents... max 1000 characters.">{{ old('description', $category->description) }}</textarea>
+                @error('description')
+                    <div class="text-error font-metadata text-metadata mt-1 flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[16px]">warning</span>
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
 
             <!-- Actions Bar -->
