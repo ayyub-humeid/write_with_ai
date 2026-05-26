@@ -52,7 +52,7 @@
             <button type="submit"
                 class="bg-primary text-on-primary px-8 py-4 rounded-full font-ui-label text-ui-label hover:bg-primary-hover transition-all hover:shadow-lg active:scale-95 flex items-center gap-2">
                 <span class="material-symbols-outlined">publish</span>
-                {{ isset($post->id) ? 'Update Post' : 'Publish Story' }}
+                {{ isset($post->id) ? 'Update Post' : 'Publish' }}
             </button>
         </div>
         <!-- Sidebar: Publishing Settings -->
