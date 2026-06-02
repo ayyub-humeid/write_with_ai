@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-  
+
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
@@ -29,10 +29,10 @@ class User extends Authenticatable
         'status',
     ];
     protected $hidden = [
-        'password', 
+        'password',
         'remember_token'
     ];
-    
+
     protected function casts(): array
     {
         return [
@@ -40,7 +40,7 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    
+
     public function getGravatarUrlAttribute(): string
     {
        $baseUrl = 'https://ui-avatars.com/api/';
@@ -61,4 +61,13 @@ class User extends Authenticatable
 
     return "https://www.gravatar.com/avatar/$hash?s=128&d=" . urlencode($default);
     }
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
 }
