@@ -26,11 +26,12 @@ class PostFormRequest extends FormRequest
 
         return [
             'title' => [
-                'required', 
-                'string', 
+                'required',
+                'string',
                 'max:255',
                 \Illuminate\Validation\Rule::unique('posts', 'title')->ignore($postId),
-                new \App\Rules\DeniedWordsRule()
+                new \App\Rules\DeniedWordsRule(),
+                'tags'=>['nullable','string']
             ],
             'content' => ['required', 'string', new \App\Rules\DeniedWordsRule()],
             'category_id' => 'required|exists:categories,id',
