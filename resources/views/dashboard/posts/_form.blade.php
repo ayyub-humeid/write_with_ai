@@ -10,11 +10,11 @@
             </div>
             <!-- <ul class="list-none space-y-1">
                 @foreach ($errors->all() as $error)
-                    <li class="text-red-600 font-metadata text-metadata flex items-center gap-2">
+<li class="text-red-600 font-metadata text-metadata flex items-center gap-2">
                         <span class="w-1.5 h-1.5 bg-red-400 rounded-full"></span>
                         {{ $error }}
                     </li>
-                @endforeach
+@endforeach
             </ul> -->
         </div>
     @endif
@@ -64,37 +64,42 @@
                     <h3 class="font-ui-label text-ui-label text-on-surface mb-4 uppercase tracking-wider">Cover
                         Image
                     </h3>
-                    <div id="image-preview-container" 
+                    <div id="image-preview-container"
                         class="relative aspect-video w-full rounded-2xl bg-surface-container border-2 {{ $errors->has('cover_image') ? 'border-error' : 'border-dashed border-outline-variant' }} flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-surface-container-high transition-all group overflow-hidden shadow-inner">
-                        
+
                         <input type="hidden" name="remove_cover_image" id="remove-cover-image" value="0">
-                        
+
                         <div class="absolute inset-0 z-0" onclick="document.getElementById('cover-image').click()">
                             @if ($post->cover_image)
-                                <img id="preview-img" src="{{ asset('storage/' . $post->cover_image) }}" class="absolute inset-0 w-full h-full object-cover">
+                                <img id="preview-img" src="{{ asset('storage/' . $post->cover_image) }}"
+                                    class="absolute inset-0 w-full h-full object-cover">
                             @else
-                                <img id="preview-img" src="" class="absolute inset-0 w-full h-full object-cover hidden">
+                                <img id="preview-img" src=""
+                                    class="absolute inset-0 w-full h-full object-cover hidden">
                             @endif
 
-                            <div id="preview-placeholder" class="{{ $post->cover_image ? 'opacity-0' : 'opacity-100' }} flex flex-col items-center justify-center gap-2 group-hover:scale-110 transition-transform duration-300 h-full w-full">
-                                <span class="material-symbols-outlined text-[48px] text-secondary group-hover:text-primary transition-colors">add_a_photo</span>
+                            <div id="preview-placeholder"
+                                class="{{ $post->cover_image ? 'opacity-0' : 'opacity-100' }} flex flex-col items-center justify-center gap-2 group-hover:scale-110 transition-transform duration-300 h-full w-full">
+                                <span
+                                    class="material-symbols-outlined text-[48px] text-secondary group-hover:text-primary transition-colors">add_a_photo</span>
                                 <span class="font-metadata text-metadata text-secondary">Upload Cover Photo</span>
                             </div>
 
                             <!-- Hover Overlay -->
-                            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <div
+                                class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                                 <span class="text-white font-ui-label text-ui-label">Change Image</span>
                             </div>
                         </div>
 
                         <!-- Delete Button (Only visible if image exists/selected) -->
-                        <button type="button" id="remove-image-btn" 
-                                onclick="clearImageSelection(event)"
-                                class="{{ $post->cover_image ? 'flex' : 'hidden' }} absolute top-2 right-2 z-10 w-8 h-8 rounded-full bg-error text-on-error items-center justify-center shadow-md hover:bg-error-hover transition-all active:scale-90">
+                        <button type="button" id="remove-image-btn" onclick="clearImageSelection(event)"
+                            class="{{ $post->cover_image ? 'flex' : 'hidden' }} absolute top-2 right-2 z-10 w-8 h-8 rounded-full bg-error text-on-error items-center justify-center shadow-md hover:bg-error-hover transition-all active:scale-90">
                             <span class="material-symbols-outlined text-[20px]">close</span>
                         </button>
 
-                        <input type="file" name="cover_image" id="cover-image" class="hidden" accept="image/*" onchange="previewImage(this)">
+                        <input type="file" name="cover_image" id="cover-image" class="hidden" accept="image/*"
+                            onchange="previewImage(this)">
                     </div>
                     @error('cover_image')
                         <div class="text-error font-metadata text-metadata mt-2 flex items-center gap-1">
@@ -115,7 +120,8 @@
                                     {{ $category->name }}</option>
                             @endforeach
                         </select>
-                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-secondary">
+                        <div
+                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-secondary">
                             <span class="material-symbols-outlined text-[20px]">keyboard_arrow_down</span>
                         </div>
                     </div>
@@ -129,31 +135,35 @@
                 <!-- Tags -->
                 <section>
                     <h3 class="font-ui-label text-ui-label text-on-surface mb-4 uppercase tracking-wider">Tags</h3>
-                    <div class="flex flex-wrap gap-2 mb-3">
-                        <span
-                            class="bg-primary-fixed text-on-primary-fixed px-3 py-1 rounded-full font-metadata text-metadata flex items-center gap-1">
-                            Minimalism <span class="material-symbols-outlined text-[14px] cursor-pointer">close</span>
-                        </span>
-                        <span
-                            class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full font-metadata text-metadata flex items-center gap-1">
-                            Writing <span class="material-symbols-outlined text-[14px] cursor-pointer">close</span>
-                        </span>
-                    </div>
-                    <input
-                        class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2 font-metadata text-metadata focus:ring-1 focus:ring-primary focus:border-primary transition-all shadow-sm"
-                        placeholder="Add tag..." type="text" />
+                    @php
+                        $tagString = old('tags', $post->tags->pluck('name')->implode(','));
+                    @endphp
+                    <input id="tag-input" type="text" value="{{ $tagString }}"
+                        class="w-full rounded-lg border border-outline-variant bg-white px-3 py-2 font-metadata text-metadata focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                        placeholder="Add tags (press Enter)" autocomplete="off" />
+                    <input id="tags-hidden" name="tags" type="hidden" value="{{ $tagString }}" />
+                    @error('tags')
+                        <div class="text-error font-metadata text-metadata mt-2 flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[16px]">warning</span>
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </section>
                 <!-- SEO Preview -->
                 <section>
                     <div class="flex justify-between items-center mb-4">
-                        <h3 class="font-ui-label text-ui-label text-on-surface uppercase tracking-wider">SEO Preview</h3>
-                        <button type="button" class="text-primary font-metadata text-metadata hover:underline">Edit</button>
+                        <h3 class="font-ui-label text-ui-label text-on-surface uppercase tracking-wider">SEO Preview
+                        </h3>
+                        <button type="button"
+                            class="text-primary font-metadata text-metadata hover:underline">Edit</button>
                     </div>
-                    <div class="p-4 bg-white border border-outline-variant rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                    <div
+                        class="p-4 bg-white border border-outline-variant rounded-xl shadow-sm hover:shadow-md transition-shadow">
                         <div class="text-[#1a0dab] font-sans text-[18px] leading-tight mb-1 truncate">
                             {{ $post->title ? $post->title . ' | Ink & Paper' : 'Story Title Preview' }}
                         </div>
-                        <div class="text-[#006621] font-sans text-[14px] mb-1 truncate">inkandpaper.com/{{ Str::slug($post->title ?? 'new-post') }}</div>
+                        <div class="text-[#006621] font-sans text-[14px] mb-1 truncate">
+                            inkandpaper.com/{{ Str::slug($post->title ?? 'new-post') }}</div>
                         <p class="text-secondary font-sans text-[13px] line-clamp-2">
                             {{ Str::limit(strip_tags($post->content), 150, '...') ?: 'Start writing to see your SEO meta description preview here. This is how search engines like Google will display your story.' }}
                         </p>
@@ -165,16 +175,16 @@
     </main>
 </form>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css">
+<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
 <script>
     function previewImage(input) {
         const preview = document.getElementById('preview-img');
         const placeholder = document.getElementById('preview-placeholder');
         const removeBtn = document.getElementById('remove-image-btn');
         const removeInput = document.getElementById('remove-cover-image');
-        
         if (input.files && input.files[0]) {
             const reader = new FileReader();
-            
             reader.onload = function(e) {
                 preview.src = e.target.result;
                 preview.classList.remove('hidden');
@@ -183,20 +193,20 @@
                 removeBtn.classList.add('flex');
                 removeInput.value = "0"; // Reset remove flag if new file selected
             }
-            
+
             reader.readAsDataURL(input.files[0]);
         }
     }
 
     function clearImageSelection(event) {
         event.stopPropagation(); // Avoid triggering file input
-        
+
         const input = document.getElementById('cover-image');
         const preview = document.getElementById('preview-img');
         const placeholder = document.getElementById('preview-placeholder');
         const removeBtn = document.getElementById('remove-image-btn');
         const removeInput = document.getElementById('remove-cover-image');
-        
+
         input.value = ""; // Clear file input
         preview.src = "";
         preview.classList.add('hidden');
@@ -205,14 +215,60 @@
         removeBtn.classList.remove('flex');
         removeInput.value = "1"; // Signal that existing image should be removed
     }
+
+    function initTagEditor() {
+        const tagInput = document.getElementById('tag-input');
+        const hiddenInput = document.getElementById('tags-hidden');
+
+        if (!tagInput || !hiddenInput) {
+            return;
+        }
+
+        if (typeof Tagify === 'undefined') {
+            hiddenInput.value = tagInput.value;
+            return;
+        }
+
+        const tagify = new Tagify(tagInput, {
+            delimiters: ',',
+            trim: true,
+            maxTags: 12,
+            dropdown: {
+                enabled: 0
+            },
+            originalInputValueFormat: values => values.map(item => item.value).join(',')
+        });
+
+        const syncHiddenInput = () => {
+            hiddenInput.value = tagify.value.map(item => item.value.trim()).filter(Boolean).join(',');
+        };
+
+        syncHiddenInput();
+        tagify.on('add', syncHiddenInput);
+        tagify.on('remove', syncHiddenInput);
+        tagify.on('edit:updated', syncHiddenInput);
+    }
+
+    document.addEventListener('DOMContentLoaded', initTagEditor);
 </script>
 
 <style>
     @keyframes shake {
-        0%, 100% { transform: translateX(0); }
-        25% { transform: translateX(-5px); }
-        75% { transform: translateX(5px); }
+
+        0%,
+        100% {
+            transform: translateX(0);
+        }
+
+        25% {
+            transform: translateX(-5px);
+        }
+
+        75% {
+            transform: translateX(5px);
+        }
     }
+
     .animate-shake {
         animation: shake 0.4s ease-in-out;
     }
