@@ -5,7 +5,9 @@
             <input class="mt-2 w-4 h-4 rounded border-outline text-primary focus:ring-primary" type="checkbox" />
             <div class="flex-grow grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
                 <div class="md:col-span-6">
-                    <span class="text-metadata font-metadata text-primary mb-1 block">Editorial • 8 min
+                    <span class="text-metadata font-metadata text-primary mb-1 block">{{ $post->category->name ?? null }}
+                        • 8
+                        min
                         read</span>
                     <h3 class="font-headline-md text-[20px] leading-snug group-hover:text-primary transition-colors">
                         {{ $post->title }}
@@ -26,9 +28,17 @@
 
                         </div>
                         <div class="flex items-center gap-1 text-ui-label font-medium">
-                            <span class="material-symbols-outlined text-[18px]"
-                                data-icon="chat_bubble">chat_bubble</span> 84
+                            <button
+                                onclick="openCommentsModal({{ $post->id }}, {{ $post->comments_count ?? 0 }})"
+                                class="flex items-center gap-1 text-ui-label font-medium hover:text-primary transition-colors">
+                                <span class="material-symbols-outlined text-[18px]"
+                                    data-icon="chat_bubble">chat_bubble</span>
+                                {{ Illuminate\Support\Number::abbreviate($post->comments_count) }}
+                            </button>
                         </div>
+                        {{-- ## we used abbreviate to convert large numbers into a more readable format, such as 1.2K for
+                        1200 or 3.4M for 3,400,000. This helps to keep the UI clean and prevents clutter when displaying
+                        engagement metrics like views and comments. ## --}}
                     </div>
                 </div>
                 <div class="md:col-span-2">
@@ -67,32 +77,3 @@
             </div>
         </div>
     </div>
-    <!-- <script>
-        function deletePost(id, status) {
-            console.log('Deleting post ' + id + ' with status ' + status);
-            fetch('{{ route('dashboard.posts.destroy', ':id') }}'.replace(':id', id), {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(response => {
-                    if (response.ok) {
-                        alert('Post deleted successfully.');
-                        document.getElementById('post-' + id).remove();
-
-                        // Decrement the count element in DOM
-                        const countEl = document.getElementById('count-' + status);
-                        if (countEl) {
-                            let currentCount = parseInt(countEl.textContent, 10);
-                            if (!isNaN(currentCount) && currentCount > 0) {
-                                countEl.textContent = currentCount - 1;
-                            }
-                        }
-                    } else {
-                        alert('Failed to delete the post.');
-                    }
-                });
-        }
-    </script> -->
