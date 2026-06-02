@@ -37,7 +37,7 @@
                     <div class="mb-8"></div>
                 @enderror
                 <!-- Content Field -->
-                <textarea name="content"
+                <textarea name="content" id="content"
                     class="w-full bg-transparent border-b-2 {{ $errors->has('content') ? 'border-error' : 'border-transparent hover:border-outline-variant' }} focus:ring-0 font-body-lg text-body-lg text-on-surface leading-relaxed placeholder:text-surface-variant transition-colors"
                     data-placeholder="Type your story..." oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'>{{ old('content', $post->content) }}</textarea>
                 @error('content')
@@ -177,6 +177,15 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css">
 <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+<script src="https://cdn.tiny.cloud/1/7mbxrgkvewbzrtuk9otv6dxjxj0x2yti7oesi8ktbw1u9mld/tinymce/8/tinymce.min.js"
+    referrerpolicy="origin" crossorigin="anonymous"></script>
+<script>
+    tinymce.init({
+        selector: 'textarea#content', // Replace this CSS selector to match the placeholder element for TinyMCE
+        plugins: 'code table lists',
+        toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright | indent outdent | bullist numlist | code | table'
+    });
+</script>
 <script>
     function previewImage(input) {
         const preview = document.getElementById('preview-img');

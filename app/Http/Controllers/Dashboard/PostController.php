@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Mews\Purifier\Facades\Purifier;
 
 class PostController extends Controller
 {
@@ -62,10 +63,11 @@ class PostController extends Controller
      */
     public function store(PostFormRequest $request, SyncPostTags $syncPostTags)
     {
-        $data = $request->safe()->except('cover_image');
+        $data = $request->safe()->except('cover_image','content');
 
         $data['user_id'] = Auth::id(); // TO DO: Use auth()->id() when ready
         $data['slug'] = Str::slug($request->title);
+        $data['content']= Purifier::clean($request->input('content'), 'post_content');
         DB::beginTransaction();
          try {
 
@@ -120,8 +122,9 @@ class PostController extends Controller
     public function update(PostFormRequest $request, string $id, SyncPostTags $syncPostTags)
     {
         $post = Post::findOrFail($id);
-        $data = $request->safe()->except('cover_image');
+        $data = $request->safe()->except('cover_image','content');
         $data['slug'] = Str::slug($request->title);
+        $data['content'] = Purifier::clean($request->input('content'), 'post_content');
             try {
                 DB::transaction(function () use ($request, $post, $data, $syncPostTags) {
 
