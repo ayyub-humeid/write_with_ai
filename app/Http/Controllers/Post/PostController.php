@@ -3,25 +3,25 @@
 namespace App\Http\Controllers\Post;
 
 use App\Http\Controllers\Controller;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    private $posts=[];
-    public function __construct(){
-        $this->posts = include(app_path('services/posts.php'));
-    }
+    // private $posts=[];
+
     public function index()
     {
-        $posts = $this->posts;
+        $posts = Post::paginate(20) ;
         return view('app.posts.index',compact('posts'));
     }
-    public function show($post)
+    public function show($slug)
     {
-        $post = collect($this->posts)->where('slug',$post)->first();
+        $post = Post::where('slug', $slug)->first();
         // dd($post);
-
-
+        $post->increment('views');
+        $post->save();
+        $post->load('user');
         return view('app.posts.show', compact('post'));
     }
 }

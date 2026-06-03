@@ -43,23 +43,9 @@ class User extends Authenticatable
 
     public function getGravatarUrlAttribute(): string
     {
-       $baseUrl = 'https://ui-avatars.com/api/';
-    $params = http_build_query([
-        'name' => $this->name,
-        'background' => 'random',
-        'color' => 'fff',
-        'size' => '128',
-        'length' => '1',
-        'bold' => 'true',
-        'uppercase' => 'true',
-        'font-size' => '0.45'
-    ]);
 
-    $default = $baseUrl . '?' . $params;
 
-    $hash = md5(strtolower(trim($this->email)));
-
-    return "https://www.gravatar.com/avatar/$hash?s=128&d=" . urlencode($default);
+    return $this->avatar? asset('storage/' . $this->avatar) : 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($this->email))) . '?s=200&d=identicon';
     }
     public function posts()
     {
