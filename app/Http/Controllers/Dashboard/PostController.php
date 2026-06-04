@@ -157,34 +157,4 @@ class PostController extends Controller
         // return redirect()->route('dashboard.posts.index')->with('success', 'Post deleted successfully.');
         return response()->json(['message' => 'Post deleted successfully.'], 200);
         }
-
-        public function comments(Post $post)
-    {
-        if ((int) $post->user_id !== (int) Auth::id()) {
-            abort(403);
-        }
-
-        $comments = $post->comments()
-            ->with('user:id,name')
-            ->whereNull('parent_id')
-            ->latest()
-            ->get()
-            ->map(function ($comment) {
-                return [
-                    'id' => $comment->id,
-                    'author' => $comment->user?->name ?? $comment->user_name ?? 'Anonymous',
-                    'content' => $comment->content,
-                    'created_at_human' => $comment->created_at?->diffForHumans(),
-                    'created_at' => $comment->created_at?->toDateTimeString(),
-                ];
-            });
-
-        return response()->json([
-            'post_id' => $post->id,
-            'comments_count' => $comments->count(),
-            'comments' => $comments,
-            'status' => 'success',
-
-        ]);
-    }
 }

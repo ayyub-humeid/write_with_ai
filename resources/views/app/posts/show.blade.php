@@ -86,16 +86,25 @@
             <div class="flex items-center gap-2 group cursor-pointer">
                 <span
                     class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">chat_bubble</span>
-                <span class="font-ui-label text-ui-label text-secondary group-hover:text-primary">84</span>
+                <button onclick="openCommentsModal({{ $post->id }}, {{ $post->comments_count }})">
+                    <span class="font-ui-label text-ui-label text-secondary group-hover:text-primary">
+                        {{ $post->comments_count }} </span>
+                </button>
+
+
             </div>
             <div class="w-px h-6 bg-outline-variant"></div>
             <button
                 class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">bookmark</button>
             <button
                 class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">ios_share</button>
+
         </div>
     </div>
+
 @endsection
+
+@include('dashboard.posts.includes.commentsModel')
 
 @push('style')
     <style>
@@ -106,8 +115,154 @@
         .article-column {
             max-width: 720px;
         }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.3s ease-out;
+        }
     </style>
 @endpush
+@section('script')
+    <script>
+        let activePostId = null;
+
+        function escapeHtml(value) {
+            const div = document.createElement('div');
+            div.textContent = value ?? '';
+            return div.innerHTML;
+        }
+
+        function closeCommentsModal() {
+            const modal = document.getElementById('commentsModal');
+            if (!modal) return;
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function renderComments(comments) {
+            const list = document.getElementById('commentsList');
+            if (!list) return;
+
+            if (!comments.length) {
+                list.innerHTML = `
+                <div class="h-full min-h-[240px] flex flex-col items-center justify-center gap-3">
+                    <div class="p-4 bg-gray-100 rounded-full">
+                        <span class="material-symbols-outlined text-gray-400 text-[32px]">chat_bubble_outline</span>
+                    </div>
+                    <p class="text-center">
+                        <p class="text-sm font-medium text-gray-600">No comments yet</p>
+                        <p class="text-xs text-gray-500 mt-1">Be the first to share your thoughts</p>
+                    </p>
+                </div>
+            `;
+                return;
+            }
+
+            list.innerHTML = comments.map((comment, index) => `
+            <article class="bg-white border border-gray-200 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300 hover:border-gray-300 animate-fade-in-up" style="animation-delay: ${index * 50}ms">
+                <div class="flex items-start justify-between gap-3 mb-3">
+                    <div class="flex items-center gap-3 flex-1 min-w-0">
+                        <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+                            <span class="text-white font-bold text-sm">${escapeHtml(comment.author).charAt(0).toUpperCase()}</span>
+                        </div>
+                        <div class="min-w-0 flex-1">
+                            <h4 class="text-sm font-bold text-gray-900 truncate">${escapeHtml(comment.author)}</h4>
+                            <time class="text-xs text-gray-500 font-medium" title="${escapeHtml(comment.created_at || '')}">
+                                ${escapeHtml(comment.created_at_human || '')}
+                            </time>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-sm leading-relaxed text-gray-700 whitespace-pre-line break-words">${escapeHtml(comment.content || '')}</p>
+            </article>
+        `).join('');
+        }
+
+        function openCommentsModal(postId, commentsCount = 0) {
+            console.log('Opening comments modal for post ID:', postId, 'with', commentsCount, 'comments');
+            activePostId = postId;
+            const modal = document.getElementById('commentsModal');
+            const list = document.getElementById('commentsList');
+            const loader = document.getElementById('commentsLoader');
+            const meta = document.getElementById('commentsMeta');
+
+            if (!modal || !list || !loader || !meta) return;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            meta.textContent = `${commentsCount} comment${commentsCount === 1 ? '' : 's'}`;
+            list.innerHTML = '';
+            loader.classList.remove('hidden');
+
+            const url = '{{ route('posts.comments', ':id') }}'.replace(':id', postId);
+
+            fetch(url, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => response.json().then(data => ({
+                    ok: response.ok,
+                    body: data
+                })))
+                .then(({
+                    ok,
+                    body
+                }) => {
+                    if (activePostId !== postId) return;
+
+                    loader.classList.add('hidden');
+                    if (!ok) {
+                        console.log('Comments API response:', body);
+
+                        showToast(body.message || 'Failed to load comments.', 'error');
+                        renderComments([]);
+                        return;
+                    }
+
+                    meta.textContent =
+                        `${body.comments_count || 0} comment${(body.comments_count || 0) === 1 ? '' : 's'}`;
+                    renderComments(body.comments || []);
+                })
+                .catch(() => {
+                    if (activePostId !== postId) return;
+                    loader.classList.add('hidden');
+                    showToast('An error occurred while loading comments.', 'error');
+                    renderComments([]);
+                });
+        }
+    </script>
+@endsection
 
 @section('mainClass', 'pt-24 pb-section-gap')
 @section('bodyClass', 'bg-surface text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed')
