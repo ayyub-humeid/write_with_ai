@@ -18,7 +18,7 @@ class OwnerPostScope implements Scope
             return ;
         }
         if(Route::is('dashboard.*')){
-            $builder->where('user_id', auth()->id());
+            // $builder->where('user_id', auth()->id());
         }
     }
 }

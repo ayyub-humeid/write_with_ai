@@ -24,7 +24,7 @@ class PostController extends Controller
 
         $status = $request->query('status', 'published');
 
-        $posts = Post::where('status', $status)->where('user_id', Auth::id())
+        $posts = Post::where('status', $status)
 
         ->with('category:id,name','tags:id,name,slug')
         ->withCount('comments')
@@ -37,13 +37,12 @@ class PostController extends Controller
                  'html' => view('components.dashboard.posts.post-component', compact('posts'))->render(),
                  'status' => $status,
                  'counts' => [
-                     'published' => Post::where('status', 'published')->where('user_id', Auth::id())->count(),
-                     'draft' => Post::where('status', 'draft')->where('user_id', Auth::id())->count(),
-                     'archived' => Post::where('status', 'archived')->where('user_id', Auth::id())->count(),
+                     'published' => Post::where('status', 'published')->count(),
+                     'draft' => Post::where('status', 'draft')->count(),
+                     'archived' => Post::where('status', 'archived')->count(),
                  ]
              ]);
          }
-
          return view('dashboard.posts.index', compact('posts','status_options','status'));
      }
 

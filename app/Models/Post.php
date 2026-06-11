@@ -30,6 +30,11 @@ class Post extends Model
         'status',
         'views',
     ];
+    protected static function booted()
+    {
+
+        static::addGlobalScope(new Scopes\OwnerPostScope);
+    }
 
     // protected $guarded = [];
     public function category()
@@ -45,7 +50,7 @@ class Post extends Model
         return array_map(function ($item) {
              return [
                  'name'  => ucfirst($item),
-                 'count' => Post::where('status', $item)->where('user_id', Auth::id())->count() ];
+                 'count' => Post::where('status', $item)->count() ];
          }, ['published', 'draft', 'archived']);
     }
     public function tags()

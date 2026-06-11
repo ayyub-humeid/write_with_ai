@@ -24,8 +24,7 @@ class PostController extends Controller
     public function show($slug)
     {
         $post = Post::where('slug', $slug)->first();
-        $post->increment('views');
-        $post->save();
+        event(new \App\Events\PostViewed($post));
         $post->load('user:id,name', 'category:id,name');
         $post->loadCount('comments');
         return view('app.posts.show', compact('post'));
