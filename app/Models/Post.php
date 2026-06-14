@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\OwnerPostScope;
+use App\Observers\PostObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
@@ -33,7 +36,8 @@ class Post extends Model
     protected static function booted()
     {
 
-        static::addGlobalScope(new Scopes\OwnerPostScope);
+        static::addGlobalScope(new OwnerPostScope());
+        static::observe(PostObserver::class);
     }
 
     // protected $guarded = [];
@@ -60,6 +64,14 @@ class Post extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+    public function isLikedBy(User $user)
+    {
+        return $this->likes()->where('user_id', $user->id)->exists();
     }
     //  public function content(): Attribute
     // {

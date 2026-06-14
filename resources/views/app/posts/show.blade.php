@@ -13,8 +13,10 @@
                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrB-fTH_sGc-EoJs3tiJjk17n12cNKJM223VhyTD5FfEtDknySO7GKIj0HvaJ3d-MoqtVOP8Yfk-dObjmX9mmt7mFiMRgqqpHWCsYFFpmpKBTaBXmgoB4M75gSnf4MJhP1WCx3DUb1E9iLnP1S039Q9dKb0JB_82yuO9S-WADZqyUPUVc_7lpe6Od7eVj2dcesczICWUxGQu7qeDZM0cH-Zqb8erGsQU-AEaICg0K2DynpHlKKOtRY0rPe9qhTIpUEN05vqmFz9_FG" />
                     <div>
                         <div class="flex items-center gap-2">
-                            <span
-                                class="font-ui-label text-ui-label font-bold text-on-surface">{{ $post->user->name }}</span>
+                            <a href="{{ route('users.profile',['username'=>$post->user->namename??$post->user->name]) }}">
+                                <span
+                                    class="font-ui-label text-ui-label font-bold text-on-surface">{{ $post->user->name }}</span>
+                            </a>
                             <span class="text-secondary-fixed-dim">•</span>
                             @if(Auth::check() && Auth::id() != $post->user_id)
                                 <button id="follow-btn-{{ $post->user_id }}"
@@ -84,13 +86,13 @@
     <div class="fixed bottom-10 left-1/2 -translate-x-1/2 z-40">
         <div
             class="flex items-center gap-6 px-6 py-3 bg-white rounded-full border border-outline-variant shadow-[0_20px_30px_rgba(26,26,26,0.05)] backdrop-blur-sm">
-            <div class="flex items-center gap-2 group cursor-pointer">
-                <span
-                    class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">favorite</span>
-                <span class="font-ui-label text-ui-label text-secondary group-hover:text-primary">1.2k</span>
+            <div class="flex items-center gap-2 group cursor-pointer" onclick="toggleLike({{ $post->id }})">
+                <span id="like-btn-{{ $post->id }}"
+                    class="material-symbols-outlined transition-colors {{ Auth::check() && $post->isLikedBy(Auth::user()) ? 'bg-red-500 text-white rounded-full p-1' : 'text-on-surface-variant group-hover:text-primary' }}">favorite</span>
+                <span id="like-count-{{ $post->id }}" class="font-ui-label text-ui-label text-secondary group-hover:text-primary">{{ $post->likes->count() }}</span>
             </div>
             <div class="w-px h-6 bg-outline-variant"></div>
-            <div class="flex items-center gap-2 group cursor-pointer">
+            <div class="flex items-center gap-2 group cursor-pointer" onclick="openCommentsModal({{ $post->id }}, {{ $post->comments_count }})">
                 <span
                     class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">chat_bubble</span>
                 <button onclick="openCommentsModal({{ $post->id }}, {{ $post->comments_count }})">
@@ -266,6 +268,35 @@
                     loader.classList.add('hidden');
                     showToast('An error occurred while loading comments.', 'error');
                     renderComments([]);
+                });
+        }
+        function submitCommentModal() {
+            if (!activePostId) return;
+            const content = document.getElementById('comment-content-modal').value;
+            if (!content.trim()) return;
+
+            const url = '{{ route('posts.comment', ':id') }}'.replace(':id', activePostId);
+
+            fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        content: content
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('comment-content-modal').value = '';
+                        openCommentsModal(activePostId); // Refresh comments
+                    }
+                })
+                .catch(error => {
+                    console.error('Comment error:', error);
                 });
         }
     </script>

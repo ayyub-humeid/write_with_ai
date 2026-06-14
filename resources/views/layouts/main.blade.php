@@ -4,6 +4,7 @@
 
 <head>
     <meta charset="utf-8" />
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>@yield('title', 'Write AI')</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -154,6 +155,7 @@
 
     <!-- Modern Tailwind Confirmation Modal -->
     @include('layouts.includes.confirm-modal')
+    <script src="{{ asset('js/engamentFunctions.js') }}"></script>
 
     @yield('script')
 </body>

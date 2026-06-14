@@ -19,6 +19,15 @@
                     <p class="text-xs text-gray-500 truncate">{{ auth()->user()->email }}</p>
                 </div>
 
+                <a href="{{ route('dashboard.notifications.index') }}" class="flex items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                    <span>Notifications</span>
+                    @if(auth()->user()->unreadNotifications->count() > 0)
+                        <span class="bg-primary text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold">
+                            {{ auth()->user()->unreadNotifications->count() }}
+                        </span>
+                    @endif
+                </a>
+
                 <a href="" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
                     Settings
                 </a>

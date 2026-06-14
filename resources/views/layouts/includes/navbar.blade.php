@@ -21,10 +21,14 @@
                      placeholder="Search..." type="text" />
              </div>
              <div class="flex items-center gap-2">
-                 <button
-                     class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-all">
+                 <a href="{{ route('dashboard.notifications.index') }}"
+                     class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-all relative">
                      <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
-                 </button>
+                     @if (auth()->check() && auth()->user()->unreadNotifications->count() > 0)
+                         <span
+                             class="absolute top-1.5 right-1.5 w-2 h-2 bg-primary rounded-full border-2 border-surface">{{ auth()->user()->unreadNotifications->count() }}</span>
+                     @endif
+                 </a>
                  <button
                      class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-all">
                      <span class="material-symbols-outlined" data-icon="bookmark">bookmark</span>

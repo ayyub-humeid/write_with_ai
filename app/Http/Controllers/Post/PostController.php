@@ -11,14 +11,34 @@ class PostController extends Controller
 {
     // private $posts=[];
 
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::query()
-        ->latest()
+        $filter = $request->query('filter','explore');
+        $query = Post::query()
+
         ->with('user:id,name', 'category:id,name')
-         ->withCount('comments')
-         ->
-        paginate(20) ;
+         ->withCount('comments');
+         switch ($filter) {
+    case 'recent':
+        $query->latest();
+        break;
+
+    case 'explore':
+        $query->orderByDesc('comments_count')->latest();
+        break;
+
+    case 'popular':
+        $query->orderByDesc('views');
+        break;
+
+    default:
+        $query->latest();
+        break;
+}
+
+
+       $posts = $query->paginate(20) ;
+        // dd($posts);
         return view('app.posts.index',compact('posts'));
     }
     public function show($slug)
@@ -26,14 +46,11 @@ class PostController extends Controller
         $post = Post::where('slug', $slug)->first();
         event(new \App\Events\PostViewed($post));
         $post->load('user:id,name', 'category:id,name');
-        $post->loadCount('comments');
+        $post->loadCount(['comments', 'likes']);
         return view('app.posts.show', compact('post'));
     }
         public function getComments(Post $post)
     {
-        if ((int) $post->user_id !== (int) Auth::id()) {
-            abort(403);
-        }
 
         $comments = $post->comments()
             ->with('user:id,name')

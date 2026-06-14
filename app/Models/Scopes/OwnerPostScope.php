@@ -14,11 +14,11 @@ class OwnerPostScope implements Scope
      */
     public function apply(Builder $builder, Model $model): void
     {
-        if(auth()->check()) {
-            return ;
-        }
+        // if(auth()->check()) {
+        //     return ;
+        // }
         if(Route::is('dashboard.*')){
-            // $builder->where('user_id', auth()->id());
+            $builder->where('user_id', auth()->id());
         }
     }
 }

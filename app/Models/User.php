@@ -27,6 +27,9 @@ class User extends Authenticatable
         'username',
         'timezone',
         'status',
+        'avatar',
+        'bio',
+        'location',
     ];
     protected $hidden = [
         'password',
@@ -54,6 +57,18 @@ class User extends Authenticatable
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+    public function followers() // people who follow this user
+    {
+        return $this->belongsToMany(User::class, 'follows', 'following_id', 'follower_id');
+    }
+    public function followings() // people this user follows
+    {
+        return $this->belongsToMany(User::class, 'follows', 'follower_id', 'following_id');
+    }
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
     }
 
 }

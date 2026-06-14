@@ -64,8 +64,8 @@ class PostController extends Controller
     {
         $data = $request->safe()->except('cover_image','content');
 
-        $data['user_id'] = Auth::id(); // TO DO: Use auth()->id() when ready
-        $data['slug'] = Str::slug($request->title);
+        // $data['user_id'] = Auth::id(); // TO DO: Use auth()->id() when ready
+        // $data['slug'] = Str::slug($request->title);
         $data['content']= Purifier::clean($request->input('content'), 'post_content');
         DB::beginTransaction();
          try {
