@@ -16,8 +16,15 @@
                             <span
                                 class="font-ui-label text-ui-label font-bold text-on-surface">{{ $post->user->name }}</span>
                             <span class="text-secondary-fixed-dim">•</span>
-                            <button
-                                class="text-primary font-ui-label text-ui-label font-semibold hover:underline">Follow</button>
+                            @if(Auth::check() && Auth::id() != $post->user_id)
+                                <button id="follow-btn-{{ $post->user_id }}"
+                                    onclick="{{ Auth::user()->followings->contains($post->user_id) ? "unfollow($post->user_id)" : "follow($post->user_id)" }}"
+                                    class="text-primary font-ui-label text-ui-label font-semibold hover:underline">
+                                    {{ Auth::user()->followings->contains($post->user_id) ? 'Unfollow' : 'Follow' }}
+                                </button>
+                            @elseif(!Auth::check())
+                                <a href="{{ route('login') }}" class="text-primary font-ui-label text-ui-label font-semibold hover:underline">Follow</a>
+                            @endif
                         </div>
                         <p class="font-metadata text-metadata text-secondary">{{ $post->created_at->format('M j, Y') }} · 12
                             min read</p>
