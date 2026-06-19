@@ -135,6 +135,11 @@
             },
         }
     </script>
+    <script>
+        const USER_ID = {{ Auth::id() ?? 'null' }};
+    </script>
+    @vite(['resources/js/app.js'])
+
 
     @stack('style')
 </head>

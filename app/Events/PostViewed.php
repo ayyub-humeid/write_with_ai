@@ -11,7 +11,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class PostViewed
+class PostViewed implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -31,7 +31,26 @@ class PostViewed
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('channel-name'),
+            new PrivateChannel('posts.' . $this->post->user_id),
         ];
+    }
+    public function broadcastWith(): array
+    {
+      
+        // load the post with its relations
+        $this->post->load('user', 'likes', 'comments');
+        return [
+            'post' => $this->post,
+        ];
+        //  we use broadcastWith to send the post with its relations to the frontend
+        //  this is because the post is lazy loaded by default
+        // thats mean if we dont use broadcastWith the frontend will not receive the post with its relations
+        // and we will get an error in the frontend
+        // so it something like passing data to the frontend to display it
+        
+    }
+    public function broadcastAs(): string
+    {
+        return 'post-viewed';
     }
 }

@@ -28,7 +28,7 @@ class FollowNotification extends Notification
     public function via(object $notifiable): array
     {
         // return ['mail'];
-        return ['database'];
+        return ['database','broadcast'];
     }
 
     /**
@@ -53,6 +53,9 @@ class FollowNotification extends Notification
             ],
         ];
     }
+    // public function toBroadcast(object $notifiable){
+
+    // }
 
     /**
      * Get the array representation of the notification.

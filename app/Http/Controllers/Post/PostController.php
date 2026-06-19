@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Post;
 
+use App\Events\PostViewed;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -44,7 +45,9 @@ class PostController extends Controller
     public function show($slug)
     {
         $post = Post::where('slug', $slug)->first();
-        event(new \App\Events\PostViewed($post));
+        // event(new \App\Events\PostViewed($post));
+        broadcast(new PostViewed($post))->toOthers();
+
         $post->load('user:id,name', 'category:id,name');
         $post->loadCount(['comments', 'likes']);
         return view('app.posts.show', compact('post'));
