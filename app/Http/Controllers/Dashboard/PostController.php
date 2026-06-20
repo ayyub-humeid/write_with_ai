@@ -16,6 +16,10 @@ use Mews\Purifier\Facades\Purifier;
 class PostController extends Controller
 {
 
+    public function __construct(protected \App\Services\PostService $postService)
+    {
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -60,27 +64,14 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(PostFormRequest $request, SyncPostTags $syncPostTags)
+    public function store(PostFormRequest $request)
     {
-        $data = $request->safe()->except('cover_image','content');
-
-        // $data['user_id'] = Auth::id(); // TO DO: Use auth()->id() when ready
-        // $data['slug'] = Str::slug($request->title);
-        $data['content']= Purifier::clean($request->input('content'), 'post_content');
-        DB::beginTransaction();
-         try {
-
-        if ($request->hasFile('cover_image')) {
-            $data['cover_image'] = fileUpload($request->file('cover_image'), 'posts');
+        try {
+            $this->postService->create($request->all());
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('error', 'Failed to create post: ' . $e->getMessage());
         }
 
-        $post = Post::create($data);
-        $syncPostTags->handle($post, $request->tags ?? []);
-        DB::commit();
-         } catch (\Exception $e) {
-             DB::rollBack();
-             return redirect()->back()->withInput()->with('error', 'Failed to create post: ' . $e->getMessage());
-         }
         return redirect()->route('dashboard.posts.index')->with('success', 'Post created successfully.');
     }
 
@@ -118,32 +109,16 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(PostFormRequest $request, string $id, SyncPostTags $syncPostTags)
+    public function update(PostFormRequest $request, string $id)
     {
         $post = Post::findOrFail($id);
-        $data = $request->safe()->except('cover_image','content');
-        $data['slug'] = Str::slug($request->title);
-        $data['content'] = Purifier::clean($request->input('content'), 'post_content');
-            try {
-                DB::transaction(function () use ($request, $post, $data, $syncPostTags) {
-
-        if ($request->boolean('remove_cover_image')) {
-            removeFile($post->cover_image);
-            $data['cover_image'] = null;
+        
+        try {
+            $this->postService->update($post, $request->all());
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->withErrors(['error' => 'Failed to update post: ' . $e->getMessage()]);
         }
 
-        if ($request->hasFile('cover_image')) {
-            removeFile($post->cover_image);
-            $data['cover_image'] = fileUpload($request->file('cover_image'), 'posts');
-        }
-
-        $post->update($data);
-        $syncPostTags->handle($post, $request->tags ?? []);
-                }
-                );
-            }catch (\Exception $e) {
-                return redirect()->back()->withInput()->withErrors(['error' => 'Failed to update post: ' . $e->getMessage()]);
-            }
         return redirect()->route('dashboard.posts.index')->with('success', 'Post updated successfully.');
     }
 
@@ -152,8 +127,8 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        Post::destroy($id);
-        // return redirect()->route('dashboard.posts.index')->with('success', 'Post deleted successfully.');
+        $post = Post::findOrFail($id);
+        $this->postService->delete($post);
         return response()->json(['message' => 'Post deleted successfully.'], 200);
-        }
+    }
 }

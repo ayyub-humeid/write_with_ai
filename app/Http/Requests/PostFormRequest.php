@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\DeniedWordsRule;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class PostFormRequest extends FormRequest
 {
@@ -29,11 +31,11 @@ class PostFormRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
-                \Illuminate\Validation\Rule::unique('posts', 'title')->ignore($postId),
-                new \App\Rules\DeniedWordsRule(),
+                Rule::unique('posts', 'title')->ignore($postId),
+                new DeniedWordsRule(),
                 'tags'=>['nullable','string']
             ],
-            'content' => ['required', 'string', new \App\Rules\DeniedWordsRule()],
+            'content' => ['required', 'string', new DeniedWordsRule()],
             'category_id' => 'required|exists:categories,id',
             'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'status' => 'nullable|in:published,draft,archived',

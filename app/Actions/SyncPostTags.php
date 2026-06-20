@@ -21,7 +21,5 @@ class SyncPostTags {
              $tags_ids[] = $tagModel->id;
          }
          $post->tags()->sync($tags_ids);
-
-
     }
 }
