@@ -7,13 +7,24 @@
  */
 
 import './echo';
-// Echo.private(`App.Models.User.${USER_ID}`)
-//     .notification(function (data) {
-//         alert(data.body)
-//     });
-
+Echo.private(`App.Models.User.${USER_ID}`)
+    .notification(function (data) { 
+        pushNotification(data);
+    });
+    
 // Listen for the custom PostViewed event on the user's posts channel
 Echo.private(`posts.${USER_ID}`)
     .listen('.post-viewed', function () {
-        alert('Post viewed');
-    })
+        // We can show a small info toast for this if needed, or ignore
+        console.log('Post viewed by someone');
+    });
+
+Echo.private(`notifications.newComment.${USER_ID}`)
+    .notification( function (data) {
+        pushNotification(data);
+    });
+
+Echo.private(`notifications.newLike.${USER_ID}`)
+    .notification( function (data) {
+        pushNotification(data);
+    });

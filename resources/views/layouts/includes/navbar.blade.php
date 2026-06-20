@@ -24,10 +24,10 @@
                  <a href="{{ route('dashboard.notifications.index') }}"
                      class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-all relative">
                      <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
-                     @if (auth()->check() && auth()->user()->unreadNotifications->count() > 0)
-                         <span
-                             class="absolute top-1.5 right-1.5 w-2 h-2 bg-primary rounded-full border-2 border-surface">{{ auth()->user()->unreadNotifications->count() }}</span>
-                     @endif
+                     <span id="notification-badge"
+                        class="absolute top-0 right-0 flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] font-bold text-white bg-primary rounded-full border-2 border-surface {{ (auth()->check() && auth()->user()->unreadNotifications->count() > 0) ? '' : 'hidden' }}">
+                        {{ auth()->check() ? auth()->user()->unreadNotifications->count() : '0' }}
+                    </span>
                  </a>
                  <button
                      class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-all">
