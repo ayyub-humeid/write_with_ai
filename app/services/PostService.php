@@ -28,7 +28,7 @@ class PostService
             // $data['user_id'] = Auth::id();
             // $data['slug'] = Str::slug($data['title']); this already exists in observer
             // 
-            $data['content'] = Purifier::clean($data['content'], 'post_content');
+            $data['content'] = Purifier::clean($data['content'] ?? '', 'post_content');
 
             if (isset($data['cover_image']) && $data['cover_image'] instanceof \Illuminate\Http\UploadedFile) {
                 

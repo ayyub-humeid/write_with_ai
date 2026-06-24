@@ -5,14 +5,16 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 
+use Illuminate\Database\Eloquent\Attributes\Appends;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-
+#[Appends(['gravatar_url'])]
 class User extends Authenticatable
 {
+    
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable , HasApiTokens ;
 
@@ -36,6 +38,9 @@ class User extends Authenticatable
         'password',
         'remember_token'
     ];
+    // protected $appends = [
+    //     'gravatar_url'
+    // ];
 
     protected function casts(): array
     {
@@ -47,8 +52,6 @@ class User extends Authenticatable
 
     public function getGravatarUrlAttribute(): string
     {
-
-
     return $this->avatar? asset('storage/' . $this->avatar) : 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($this->email))) . '?s=200&d=identicon';
     }
     public function posts()
@@ -66,6 +69,10 @@ class User extends Authenticatable
     public function followings() // people this user follows
     {
         return $this->belongsToMany(User::class, 'follows', 'follower_id', 'following_id');
+    }
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
     }
     public function likes()
     {

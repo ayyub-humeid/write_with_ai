@@ -9,8 +9,14 @@
                      href="{{ route('posts.index') }}">Feed</a>
                  <a class="{{ request()->routeIs('dashboard.posts.*') ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant font-medium hover:text-primary' }} font-ui-label text-ui-label transition-colors duration-200"
                      href="{{ route('dashboard.posts.index') }}">Manage Posts</a>
-                 <a class="{{ request()->routeIs('dashboard.categories.*') ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant font-medium hover:text-primary' }} font-ui-label text-ui-label transition-colors duration-200"
-                     href="{{ route('dashboard.categories.index') }}">Manage Categories</a>
+                 <!-- <a class="{{ request()->routeIs('dashboard.categories.*') ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant font-medium hover:text-primary' }} font-ui-label text-ui-label transition-colors duration-200"
+                     href="{{ route('dashboard.categories.index') }}">Manage Categories</a> -->
+                 @if(auth()->check() && auth()->user()->type === 'super-admin')
+                 <a class="{{ request()->routeIs('admin.roles.*') ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant font-medium hover:text-primary' }} font-ui-label text-ui-label transition-colors duration-200"
+                     href="{{ route('admin.roles.index') }}">Roles</a>
+                 <a class="{{ request()->routeIs('admin.users.*') ? 'text-primary font-bold border-b-2 border-primary pb-1' : 'text-on-surface-variant font-medium hover:text-primary' }} font-ui-label text-ui-label transition-colors duration-200"
+                     href="{{ route('admin.users.index') }}">Users</a>
+                 @endif
              </nav>
          </div>
          <div class="flex items-center gap-4">

@@ -28,17 +28,17 @@ class PostFormRequest extends FormRequest
 
         return [
             'title' => [
-                'required',
+                $postId ? 'sometimes' : 'required',
                 'string',
                 'max:255',
                 Rule::unique('posts', 'title')->ignore($postId),
                 new DeniedWordsRule(),
                 'tags'=>['nullable','string']
             ],
-            'content' => ['required', 'string', new DeniedWordsRule()],
-            'category_id' => 'required|exists:categories,id',
-            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
-            'status' => 'nullable|in:published,draft,archived',
+            'content' => [$postId ? 'sometimes' : 'required','string', new DeniedWordsRule()],
+            'category_id' => [$postId ? 'sometimes' : 'required','exists:categories,id'],
+            'cover_image' => [$postId ? 'sometimes' : 'required','image|mimes:jpeg,png,jpg,gif,webp|max:5120'],
+            'status' => [$postId ? 'sometimes' : 'required','in:published,draft,archived'],
         ];
     }
 }

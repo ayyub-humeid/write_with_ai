@@ -21,3 +21,5 @@ Route::get('/users/{username}', [UserController::class, 'profile'])->name('users
 // --- Dashboard ---
 @include_once('dashboard.php');
 // --- Dashboard ---
+
+@include_once('admin.php');

@@ -7,7 +7,7 @@
     </div>
     <div class="w-full md:w-2/3 space-y-3">
         <div class="flex items-center gap-2 font-metadata text-metadata text-secondary">
-            <span class="text-primary font-bold">{{ $post->category->name }}</span>
+            <span class="text-primary font-bold">{{ $post->category->name ?? '' }}</span>
             <span>•</span>
             <span>{{ $post->created_at->format('M j, Y') }}</span>
         </div>

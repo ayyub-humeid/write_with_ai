@@ -177,5 +177,3 @@ function pushNotification(data) {
         }
     }, 12000);
 }
-    
-

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Services\PostService;
 use Illuminate\Http\Request;
@@ -17,16 +18,20 @@ class PostController extends Controller
      */
     public function index()
     {
-        return Post::paginate();
+        $posts = Post::query()
+        ->with(['category:id,name','tags:id,name,slug','likes' ,'comments','user:id,name,username'])
+        ->withCount(['likes','comments'])
+        ->paginate();
+            return PostResource::collection($posts);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(\App\Http\Requests\PostFormRequest $request)
     {
         try{
-            $this->postService->create($request->all());
+            $this->postService->create($request->validated());
             return response()->json([
                 'message' => 'Post created successfully.',
             ], 200);
@@ -42,18 +47,18 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        $post->load('category:id,name','tags:id,name,slug','comments');
-        $post->loadCount('comments');
-        return $post;
+        $post->load('category:id,name','tags:id,name,slug','likes' ,'comments','user:id,name,username');
+        $post->loadCount('comments','likes');
+        return new PostResource($post);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(\App\Http\Requests\PostFormRequest $request, Post $post)
     {
         try{
-            $this->postService->update($post,$request->all());
+            $this->postService->update($post,$request->validated());
             return response()->json([
                 'message' => 'Post updated successfully.',
             ], 200);

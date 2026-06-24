@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Middleware\EnsureUserType;
+use App\Http\Middleware\UpdateUserLastActivityTime;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -14,8 +16,19 @@ return Application::configure(basePath: dirname(__DIR__))
         // apiPrefix: 'app/api/'
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->web([
+            UpdateUserLastActivityTime::class,
+        ]);
+        $middleware->api([
+            UpdateUserLastActivityTime::class,
+        ]);
         $middleware->encryptCookies([
             'post-views',
+        ]);
+
+        $middleware->alias([
+            'type' => EnsureUserType::class,
+            'update.user.last.activity.time' => UpdateUserLastActivityTime::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

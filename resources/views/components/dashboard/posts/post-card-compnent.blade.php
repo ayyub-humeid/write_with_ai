@@ -21,11 +21,7 @@
                         <div class="flex items-center gap-1 text-ui-label font-medium">
                             <span class="material-symbols-outlined text-[18px]" data-icon="visibility"></span>
                             {{ Illuminate\Support\Number::abbreviate($post->views) }}
-
                             </span>
-
-
-
                         </div>
                         <div class="flex items-center gap-1 text-ui-label font-medium">
                             <button

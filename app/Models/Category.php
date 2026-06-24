@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 
 class Category extends Model
 {
@@ -24,6 +25,11 @@ class Category extends Model
     /**
      * Get the posts belonging to this category.
      */
+    public static function booted(){
+        static::creating(function($category){
+            $category->slug = Str::slug($category->name);
+        });
+    }
     public function posts()
     {
         return $this->hasMany(Post::class);
