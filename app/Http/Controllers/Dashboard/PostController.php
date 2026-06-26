@@ -18,10 +18,7 @@ use Mews\Purifier\Facades\Purifier;
 class PostController extends Controller
 {
 
-    public function __construct(private PostService $postService)
-    {
-        
-    }
+    public function __construct(private PostService $postService){}
 
     /**
      * Display a listing of the resource.
@@ -58,8 +55,6 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
-
         $post = new Post();
         $categories = Category::select("name","id")->get();
         return view('dashboard.posts.create',compact('post','categories'));
@@ -82,9 +77,8 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Post $post)
     {
-            $post = Post::findOrFail($id);
             $post->increment('views');
             $post->load('category:id,name', 'user:id,name', 'tags:id,name,slug');
              $post->loadCount('comments');
@@ -113,9 +107,9 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(PostFormRequest $request, string $id)
+    public function update(PostFormRequest $request, Post $post)
     {
-        $post = Post::findOrFail($id);
+        // $post = Post::findOrFail($id);
         
         try {
             $this->postService->update($post, $request->all());
@@ -129,9 +123,8 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Post $post)
     {
-        $post = Post::findOrFail($id);
         $this->postService->delete($post);
         return response()->json(['message' => 'Post deleted successfully.'], 200);
     }

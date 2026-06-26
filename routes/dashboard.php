@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Dashboard\AiWriteController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\NotificationController;
 use App\Http\Controllers\Dashboard\PostController;
@@ -13,6 +14,8 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
     Route::resource('/posts', PostController::class)->middleware('auth');
     // Route::get('/posts/{post}/comments', [PostController::class, 'comments'])->middleware('auth')->name('posts.comments');
     Route::resource('/categories', CategoryController::class)->middleware('auth');
+    
+    Route::any('/ai-write',AiWriteController::class)->name('posts.ai');
 
     Route::group([
         'as' => 'notifications.',

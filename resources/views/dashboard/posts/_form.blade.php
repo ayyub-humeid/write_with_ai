@@ -37,6 +37,7 @@
                     <div class="mb-8"></div>
                 @enderror
                 <!-- Content Field -->
+                 <button class="rounded-sm border p-2" type="button" id="ai">Write with AI</button>
                 <textarea name="content" id="content"
                     class="w-full bg-transparent border-b-2 {{ $errors->has('content') ? 'border-error' : 'border-transparent hover:border-outline-variant' }} focus:ring-0 font-body-lg text-body-lg text-on-surface leading-relaxed placeholder:text-surface-variant transition-colors"
                     data-placeholder="Type your story..." oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'>{{ old('content', $post->content) }}</textarea>
@@ -179,12 +180,37 @@
 <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
 <script src="https://cdn.tiny.cloud/1/7mbxrgkvewbzrtuk9otv6dxjxj0x2yti7oesi8ktbw1u9mld/tinymce/8/tinymce.min.js"
     referrerpolicy="origin" crossorigin="anonymous"></script>
-<script>
+<!-- <script>
     tinymce.init({
         selector: 'textarea#content', // Replace this CSS selector to match the placeholder element for TinyMCE
         plugins: 'code table lists',
         toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright | indent outdent | bullist numlist | code | table'
     });
+</script> -->
+<script>
+
+    const btn = document.getElementById('ai');
+    const content = document.getElementById('content');
+    btn.addEventListener('click', function name(event) {
+        event.preventDefault();
+        let message = window.prompt('Describe your post idea:');
+        if (message) {
+            const evtSource = new EventSource("{{ route('dashboard.posts.ai') }}?message=" + message);
+            evtSource.onmessage = function (event) {
+                try {
+                    let data = JSON.parse(event.data);
+                    console.log(data?.delta);
+                    content.value = content.value + (data?.delta || '');
+                } catch (e) {
+                    console.error("JSON parse error", e);
+                }
+            };
+            evtSource.onerror = function (event) {
+                console.error("EventSource failed.");
+                evtSource.close();
+            };
+        }
+    })
 </script>
 <script>
     function previewImage(input) {
