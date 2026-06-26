@@ -37,8 +37,9 @@ class PostFormRequest extends FormRequest
             ],
             'content' => [$postId ? 'sometimes' : 'required','string', new DeniedWordsRule()],
             'category_id' => [$postId ? 'sometimes' : 'required','exists:categories,id'],
-            'cover_image' => [$postId ? 'sometimes' : 'required','image|mimes:jpeg,png,jpg,gif,webp|max:5120'],
-            'status' => [$postId ? 'sometimes' : 'required','in:published,draft,archived'],
+            // 'cover_image' => [$postId ? 'sometimes' : 'required','image|mimes:jpeg,png,jpg,gif,webp|max:5120'],
+            // 'status' => [$postId ? 'sometimes' : 'required','in:published,draft,archived'],
+            'cover_image'=>'nullable'
         ];
     }
 }

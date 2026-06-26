@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PostFormRequest;
 use App\Models\Category;
 use App\Models\Post;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -15,10 +16,12 @@ use Mews\Purifier\Facades\Purifier;
 
 class PostController extends Controller
 {
-
+// use AuthorizesRequests;
     public function __construct(protected \App\Services\PostService $postService)
     {
+        // $this->authorizeResource(Post::class, 'post');
     }
+
 
     /**
      * Display a listing of the resource.

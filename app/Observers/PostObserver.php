@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Jobs\GenerateUserImage;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -25,6 +26,11 @@ class PostObserver
     {
         if ($post->cover_image) {
             Storage::disk('public')->delete($post->cover_image);
+        }
+    }
+    public function created(Post $post){
+        if($post->cover_image == null){
+            GenerateUserImage::dispatch($post);
         }
     }
 }
