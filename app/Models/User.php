@@ -33,6 +33,8 @@ class User extends Authenticatable
         'avatar',
         'bio',
         'location',
+        'type',
+        'role_id',
     ];
     protected $hidden = [
         'password',
@@ -77,6 +79,9 @@ class User extends Authenticatable
     public function likes()
     {
         return $this->hasMany(Like::class);
+    }
+    public function hasAppility(string $ability):bool{
+        return in_array($ability,$this->role?->abilities);
     }
 
 }

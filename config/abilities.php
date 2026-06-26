@@ -15,4 +15,9 @@ return [
     'roles.create' => 'Create role',
     'roles.update' => 'Update role',
     'roles.delete' => 'Delete role',
+
+    'posts.view' => 'View posts',
+    'posts.create' => 'Create post',
+    'posts.update' => 'Update post',
+    'posts.delete' => 'Delete post',
 ];

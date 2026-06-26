@@ -14,7 +14,7 @@ class Role extends Model
     protected function casts(): array
     {
         return [
-            'abilities' => 'json',
+            'abilities' => 'array',
         ];
     }
 }

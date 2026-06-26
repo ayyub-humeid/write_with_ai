@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PostFormRequest;
 use App\Models\Category;
 use App\Models\Post;
+use App\Services\PostService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,19 +17,18 @@ use Mews\Purifier\Facades\Purifier;
 
 class PostController extends Controller
 {
-// use AuthorizesRequests;
-    public function __construct(protected \App\Services\PostService $postService)
-    {
-        // $this->authorizeResource(Post::class, 'post');
-    }
 
+    public function __construct(private PostService $postService)
+    {
+        
+    }
 
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-
+        abort_if(!Auth::user()->can('viewAny',Post::class), 403);
         $status = $request->query('status', 'published');
 
         $posts = Post::where('status', $status)
@@ -59,6 +59,7 @@ class PostController extends Controller
     public function create()
     {
         //
+
         $post = new Post();
         $categories = Category::select("name","id")->get();
         return view('dashboard.posts.create',compact('post','categories'));
@@ -101,9 +102,9 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit( Post $post)
     {
-        $post = Post::findOrFail($id);
+        abort_if(!Auth::user()->can('update',$post),403);
         $categories = Category::select("name","id")->get();
         $post->load('tags:id,name');
         return view('dashboard.posts.edit', compact('post','categories'));
